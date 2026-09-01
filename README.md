@@ -37,10 +37,11 @@ Then restart your terminal/VS Code.
 `claude-abliterated.ps1`:
 1. Reads `ABLITERATION_API_KEY` from environment
 2. Sets `ANTHROPIC_BASE_URL` to `https://api.abliteration.ai`
-3. Sets `ANTHROPIC_AUTH_TOKEN` to your key (sent as `Authorization: Bearer`)
-4. Sets `ANTHROPIC_MODEL=abliterated-model-large-v2` (default) and `ANTHROPIC_SMALL_FAST_MODEL=abliterated-model` for background tasks
-5. Runs `claude` with all arguments passed through
-6. Restores original environment values in a `finally` block
+3. Sets `ANTHROPIC_API_KEY` to your key (BYO-key mode, see note below)
+4. Sets `ANTHROPIC_MODEL=abliterated-model-large-v2` (default) and `ANTHROPIC_SMALL_FAST_MODEL=abliterated-model` for background tasks, and launches `claude --model abliterated-model-large-v2`
+5. Restores original environment values in a `finally` block
+
+**Why `ANTHROPIC_API_KEY` and not `ANTHROPIC_AUTH_TOKEN`:** if you are logged into a claude.ai organization, auth-token mode makes Claude Code validate every model name against your org's allowed Anthropic models and reject `abliterated-model-large-v2` as "restricted by your organization," silently falling back to a Claude model. BYO-API-key mode skips that org model-gate, so abliteration's own model IDs are accepted.
 
 ## Models
 

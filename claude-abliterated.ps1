@@ -21,15 +21,20 @@ $old = @{
     Fast  = $env:ANTHROPIC_SMALL_FAST_MODEL
 }
 
+# Use ANTHROPIC_API_KEY (BYO-key mode), NOT ANTHROPIC_AUTH_TOKEN. When you are
+# logged into a claude.ai org, auth-token mode makes Claude Code validate every
+# model name against the org's allowed models and reject "abliterated-*" as
+# "restricted by your organization", silently falling back to a Claude model.
+# API-key mode skips that org model-gate, so abliteration's own model IDs pass.
 $env:ANTHROPIC_BASE_URL   = 'https://api.abliteration.ai'
-$env:ANTHROPIC_AUTH_TOKEN = $key
-Remove-Item Env:\ANTHROPIC_API_KEY -ErrorAction SilentlyContinue
+$env:ANTHROPIC_API_KEY    = $key
+Remove-Item Env:\ANTHROPIC_AUTH_TOKEN -ErrorAction SilentlyContinue
 
-# Background/small-fast model (abliteration has no Claude haiku).
+# Default + background models (abliteration has no Claude haiku).
+$env:ANTHROPIC_MODEL            = 'abliterated-model-large-v2'
 $env:ANTHROPIC_SMALL_FAST_MODEL = 'abliterated-model'
 
-# Force the model with the CLI flag: a pinned "model" in ~/.claude/settings.json
-# overrides the ANTHROPIC_MODEL env var, but a --model flag beats settings.json.
+# Also force it with --model (beats a pinned model in ~/.claude/settings.json).
 # In-session you can still swap with:  /model abliterated-model-large
 $claudeArgs = @($args)
 if ($claudeArgs -notcontains '--model') {
@@ -41,7 +46,7 @@ try {
 } finally {
     if ($old.Base)  { $env:ANTHROPIC_BASE_URL = $old.Base }         else { Remove-Item Env:\ANTHROPIC_BASE_URL -ErrorAction SilentlyContinue }
     if ($old.Tok)   { $env:ANTHROPIC_AUTH_TOKEN = $old.Tok }        else { Remove-Item Env:\ANTHROPIC_AUTH_TOKEN -ErrorAction SilentlyContinue }
-    if ($old.Key)   { $env:ANTHROPIC_API_KEY = $old.Key }
+    if ($old.Key)   { $env:ANTHROPIC_API_KEY = $old.Key }          else { Remove-Item Env:\ANTHROPIC_API_KEY -ErrorAction SilentlyContinue }
     if ($old.Model) { $env:ANTHROPIC_MODEL = $old.Model }           else { Remove-Item Env:\ANTHROPIC_MODEL -ErrorAction SilentlyContinue }
     if ($old.Fast)  { $env:ANTHROPIC_SMALL_FAST_MODEL = $old.Fast } else { Remove-Item Env:\ANTHROPIC_SMALL_FAST_MODEL -ErrorAction SilentlyContinue }
 }
