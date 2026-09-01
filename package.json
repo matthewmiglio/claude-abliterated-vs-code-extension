@@ -2,7 +2,7 @@
   "name": "claude-abliterated-button",
   "displayName": "Claude Abliterated Button",
   "description": "Add a Claude Abliterated button next to the Claude Code button - routes Claude to abliteration.ai",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "publisher": "matt",
   "engines": {
     "vscode": "^1.94.0"
@@ -17,7 +17,10 @@
       {
         "command": "claudeAbliterated.open",
         "title": "Claude Abliterated: Open in Terminal",
-        "icon": "$(zap)"
+        "icon": {
+          "light": "resources/red-icon.svg",
+          "dark": "resources/red-icon.svg"
+        }
       }
     ],
     "menus": {
