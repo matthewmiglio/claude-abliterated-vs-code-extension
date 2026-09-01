@@ -25,13 +25,19 @@ $env:ANTHROPIC_BASE_URL   = 'https://api.abliteration.ai'
 $env:ANTHROPIC_AUTH_TOKEN = $key
 Remove-Item Env:\ANTHROPIC_API_KEY -ErrorAction SilentlyContinue
 
-# Default model + background/small-fast model (abliteration has no Claude haiku).
-# Swap in-session with:  /model abliterated-model-large   (or abliterated-model)
-$env:ANTHROPIC_MODEL            = 'abliterated-model-large-v2'
+# Background/small-fast model (abliteration has no Claude haiku).
 $env:ANTHROPIC_SMALL_FAST_MODEL = 'abliterated-model'
 
+# Force the model with the CLI flag: a pinned "model" in ~/.claude/settings.json
+# overrides the ANTHROPIC_MODEL env var, but a --model flag beats settings.json.
+# In-session you can still swap with:  /model abliterated-model-large
+$claudeArgs = @($args)
+if ($claudeArgs -notcontains '--model') {
+    $claudeArgs = @('--model', 'abliterated-model-large-v2') + $claudeArgs
+}
+
 try {
-    claude @args
+    claude @claudeArgs
 } finally {
     if ($old.Base)  { $env:ANTHROPIC_BASE_URL = $old.Base }         else { Remove-Item Env:\ANTHROPIC_BASE_URL -ErrorAction SilentlyContinue }
     if ($old.Tok)   { $env:ANTHROPIC_AUTH_TOKEN = $old.Tok }        else { Remove-Item Env:\ANTHROPIC_AUTH_TOKEN -ErrorAction SilentlyContinue }
