@@ -1,0 +1,49 @@
+{
+  "name": "claude-abliterated-button",
+  "displayName": "Claude Abliterated Button",
+  "description": "Add a Claude Abliterated button next to the Claude Code button - routes Claude to abliteration.ai",
+  "version": "1.0.0",
+  "publisher": "matt",
+  "engines": {
+    "vscode": "^1.94.0"
+  },
+  "categories": ["Other"],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "claudeAbliterated.open",
+        "title": "Claude Abliterated: Open in Terminal",
+        "icon": {
+          "light": "resources/red-icon.svg",
+          "dark": "resources/red-icon.svg"
+        }
+      }
+    ],
+    "menus": {
+      "editor/title": [
+        {
+          "command": "claudeAbliterated.open",
+          "when": "!config.claudeCode.useTerminal",
+          "group": "navigation@1"
+        }
+      ]
+    },
+    "keybindings": [
+      {
+        "command": "claudeAbliterated.open",
+        "key": "ctrl+shift+alt+a",
+        "mac": "cmd+shift+alt+a",
+        "when": "!config.claudeCode.useTerminal"
+      }
+    ]
+  },
+  "capabilities": {
+    "untrustedWorkspaces": {
+      "supported": false
+    }
+  }
+}
