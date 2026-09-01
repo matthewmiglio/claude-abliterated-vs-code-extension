@@ -4,6 +4,8 @@ A VS Code extension that adds a red button next to the Claude Code button. When 
 
 Unlike a GLM/Z.ai setup, no proxy is needed: abliteration.ai exposes a native Anthropic-compatible `/v1/messages` endpoint, so the script just overrides the Anthropic env vars and runs `claude`.
 
+![Claude Abliterated in action](resources/abliterated_demo.png)
+
 ## Features
 
 - Red button in the editor title bar (next to the orange Claude button)
