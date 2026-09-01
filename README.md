@@ -41,7 +41,9 @@ Then restart your terminal/VS Code.
 4. Sets `ANTHROPIC_MODEL=abliterated-model-large-v2` (default) and `ANTHROPIC_SMALL_FAST_MODEL=abliterated-model` for background tasks, and launches `claude --model abliterated-model-large-v2`
 5. Restores original environment values in a `finally` block
 
-**Why `ANTHROPIC_API_KEY` and not `ANTHROPIC_AUTH_TOKEN`:** if you are logged into a claude.ai organization, auth-token mode makes Claude Code validate every model name against your org's allowed Anthropic models and reject `abliterated-model-large-v2` as "restricted by your organization," silently falling back to a Claude model. BYO-API-key mode skips that org model-gate, so abliteration's own model IDs are accepted.
+**Why `ANTHROPIC_API_KEY` + a dedicated `CLAUDE_CONFIG_DIR`:** if you are logged into a claude.ai organization, Claude Code validates every model name against your org's allowed Anthropic models and rejects `abliterated-model-large-v2` as "restricted by your organization," silently falling back to a Claude model you may not have API access to. The script therefore runs abliterated sessions under a separate config dir (`~/.claude-abliterated`, no claude.ai login) in pure API-key mode, which removes that org model-gate so abliteration's own model IDs are accepted.
+
+Because that config dir is separate from your normal Claude Code, abliterated sessions have their own history/permissions, and the **first** click shows the usual trust/onboarding prompt once (accept it). Claude Code also warns that `abliterated-model-large-v2` is an unrecognized model name; that is harmless, and the script sets `CLAUDE_CODE_MAX_CONTEXT_TOKENS=1000000` so it still uses the model's full 1M window.
 
 ## Models
 
