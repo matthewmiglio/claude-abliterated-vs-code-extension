@@ -20,6 +20,7 @@ function activate(context) {
             name: 'Claude Abliterated',
             cwd: workspaceFolder,
             iconPath: vscode.Uri.joinPath(context.extensionUri, 'resources', 'red-icon.svg'),
+            location: vscode.TerminalLocation.Editor, // open as an editor-area tab, not the bottom panel
             isTransient: false
         });
         terminal.show();

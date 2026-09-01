@@ -2,7 +2,7 @@
   "name": "claude-abliterated-button",
   "displayName": "Claude Abliterated Button",
   "description": "Add a Claude Abliterated button next to the Claude Code button - routes Claude to abliteration.ai",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "publisher": "matt",
   "engines": {
     "vscode": "^1.94.0"
